@@ -9,19 +9,23 @@ Objetivos de aprendizagem do curso
 3. Implementar projetos de pesquisa no Rstudio (ambiente tidyverse)
 
 Cronograma e estrutura do curso
+
 Seção 1: Introdução a linguagem R, Rstudio e ambiente tidyverse
 - Apresentação do Curso e cronograma das aulas.
 - Introdução ao ambiente tidyverse.
 -Técnica de organizar um script.
 - Um pouco sobre dados e o funcionamento do Rstudio.
+  
 Seções 2: Manipulação de dados 
 - Fundamentos, pacotes e estruturas de dados.
 - Importar e exportar dados no R.
 - Boas práticas de tratamento de dados.
 - Combinando bases distintas (joins e merges).
+  
 Seções 3: Análise exploratória de dados e o Tidytext
 - Modos de sumarizar os dados.
 - Introdução ao tidytext.
+  
 Seções 4: Visualização estatística de dados; o que fazer e o que não fazer com o ChatGPT
 - Introdução ao Ggplot.
 - Transformando tabelas em gráficos.
