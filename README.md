@@ -1,4 +1,6 @@
 Descrição do curso
+
+
 O curso busca habilitar a estudante a utilizar, de modo aplicado, a linguagem R de programação por meio da interface gráfica RStudio em pesquisas quantitativas e qualitativas em Ciências Sociais. Para tal, busca desenvolver a capacidade de carregar e manipular dados, construir base de dados, obter informações na web, bem como realizar análises estatísticas descritivas.
 
 Objetivos de aprendizagem do curso
