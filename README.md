@@ -32,11 +32,19 @@ Seções 4: Visualização estatística de dados; o que fazer e o que não fazer
 - Boas práticas do uso do ChatGPT.
 
 Bibliografia sugerida 
+
 Arnold, Taylor; Tilton, Lauren (2015). Humanities Data in R: Exploring Networks, Geospatial Data, Images and Text. Suíça: Springer.
+
 Castanho Silva, Bruno. 2018. "Populist Success: A Qualitative Comparative Analysis". In: The Ideational Approach to Populism: Theory, Method & Analysis, edited by Kirk A. Hawkins, Ryan Carlin, Levente Littvay, and Cristóbal Rovira Kaltwasser. London: Routledge.
+
 Baumer, Benjamin; Kaplan, Daniel; Horton, Nicholas (2017). Modern Data Science with R. Flórida: CRC Press.
+
 Cervi, Emerson U. (2017). Manual de métodos quantitativos para iniciantes em Ciência Política. Curitiba: CPOP-UFPR, v. 1.
+
 Silge, Julia; Robinson, David (2017). Text Mining with R: a Tidy Approach. Califórnia: O'Reilly.
+
 Julia Silge and David Robinson. Introduction to tidytext. Link: <https://cran.r-project.org/web/packages/tidytext/vignettes/tidytext.html>
+
 Wickham, Hadley (2016). Ggplot2: Elegant Graphics for Data Analysis. Suíça: Springer.
+
 Wickham, Hadley; Grolemund, Garrett (2017). R for Data Science: Import, Tidy, Transform, Visualize and Model Data. Canadá: O'Reilly.
