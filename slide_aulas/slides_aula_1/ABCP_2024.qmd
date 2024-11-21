@@ -1,0 +1,611 @@
+---
+title: "Gap de gênero e opinião pública"
+subtitle: "atitudes sobre direitos de pessoas do mesmo sexo e legalização do aborto no Brasil (2018-2022)"
+author: Larissa Marques
+institute: "Ipol/UnB"
+format: 
+  revealjs:
+    self-contained: true
+    footer: "14º Encontro da ABCP"
+    transition: slide
+    title-slide-attributes: 
+      data-background-image: metodologia_ABCP.jpg 
+execute: 
+  echo: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+# Abrir pacotes
+pacman::p_load(tidyverse, rio, sjPlot, performance)
+
+# Banco geral
+load("~/dissertacao_cara_da_democracia/1.bancos/b_modelos.Rda")
+
+# Definir o tema
+
+tema <- ggthemes::theme_fivethirtyeight(base_family = "Times New Roman") +
+  theme(axis.text = element_text(size = 18),
+        axis.title = element_text(size = 18),
+        axis.title.x = element_text(size = 18),
+        axis.title.y = element_text(size = 18),
+        axis.text.x =  element_text(size = 15),
+        axis.text.y =  element_text(size = 18),
+        legend.position = "bottom",
+        legend.text = element_text(size = 18),
+        plot.caption = element_text(hjust = 0, size = 14),
+        panel.background = element_rect(fill = "white", colour = "white", color = "white"),
+        plot.background = element_rect(fill = "white", colour = "white", color = "white"),
+        legend.background = element_rect(fill = "white"),
+        panel.grid.major.x = element_line(colour = "#f2f2f2", linewidth = 0.6),
+        panel.grid.major.y = element_line(colour = "#f2f2f2", linewidth = 0.6),
+        legend.box = "horizontal",
+        legend.key = element_rect(fill = "white", color = "white"))
+
+ggplot2::theme_set(tema)
+```
+
+## Introdução {background-image=metodologia_ABCP.jpg}
+
+
+##### Perguntas 
+
+- Existe diferença nas atitudes políticas de mulheres e homens?
+
+- Qual a direção dessa diferença? 
+
+
+##### Objetivo
+
+Analisar se existe diferença de gênero nas atitudes políticas relacionadas aos temas sociais e morais tradicionais como a expansão de direitos para grupos LGBTI+ e legalização do aborto.
+
+
+# 
+### Metodologia {background-image=metodologia_ABCP.jpg}
+
+::: {style="font-size: 18px;"}
+**Dados:** A cara da democracia
+
+**Recorte temporal:** 2018-2019/2018-2022
+
+**Técnica**: Modelo de regressão logística
+
+```{r}
+knitr::include_graphics("Dependentes.jpg")
+```
+:::
+
+#
+### Resultados {background-image=metodologia_ABCP.jpg}
+
+::: {style="font-size: 15px;"}
+
+**Gráfico 1:** Apoio a legalização do aborto
+
+```{r, fig.width=16, fig.height=8}
+
+## Aborto
+modelo_1_aborto <- glm(
+  rtemas7 ~ 
+    
+    # Independentes
+    
+    Casados +
+    Dona_de_casa +
+    
+    # Controles 
+    ideologia+
+    Mulher +
+    Partidarios +
+    Evangelicos +
+    #Catolicos+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+   
+    Ano_2018,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos
+)
+
+
+# Modelo com valor e var chave
+
+
+modelo_2_aborto <- glm(
+  rtemas7  ~ 
+    
+    # Independentes
+    
+    igualitarios+
+    #autoritarios+
+    Casados +
+    Dona_de_casa +
+    
+    # Controles 
+    ideologia+
+    Mulher +
+    Partidarios +
+    Evangelicos +
+    #Catolicos+
+    Freq_Igreja+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    
+    Ano_2018,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos
+)
+
+
+
+b_modelos_m_aborto <- b_modelos %>% 
+  rename(`Apenas mulheres` = rtemas7)
+
+modelo_3_aborto <- glm(
+  `Apenas mulheres`  ~ 
+    
+    # Independentes
+    #Mulher +
+    igualitarios+
+    Casados +
+    Dona_de_casa +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    #Catolicos+
+    Freq_Igreja+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos_m_aborto[b_modelos_m_aborto$Mulher == 1, ])
+
+
+
+b_modelos_h_aborto <- b_modelos %>% 
+  rename(`Apenas homens` = rtemas7)
+
+modelo_4_aborto <- glm(
+  `Apenas homens`  ~ 
+    
+    # Independentes
+    #Mulher +
+    igualitarios+
+    Casados +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    #Catolicos+
+    Freq_Igreja+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos_h_aborto[b_modelos_h_aborto$Mulher == 0, ])
+
+
+## O plot ----
+plot_models(modelo_4_aborto, modelo_3_aborto, modelo_2_aborto, modelo_1_aborto,
+             m.labels = c("Modelo 4\nApenas Homens", "Modelo 3\nApenas Mulheres",
+                        "Modelo 2","Modelo 1"),
+            rm.terms = c("Ano_2018"),
+            show.values = T,
+            spacing = 0.7,
+            vline.color = "gray50",
+            line.size = 1,
+            grid = TRUE
+            )+ 
+  theme(text = element_text(size = 14), 
+        strip.text = element_text(size = 15),
+         legend.position = "none")+
+  scale_x_discrete(labels=c(
+                       "Mulher" = "Mulher", 
+                       "Casados" = "Casadas(os)", 
+                       "Dona_de_casa" = "Donas de casa", 
+                       "idade" = "Idade",
+                       "Brancos" = "Brancos", 
+                       "esc" = "Escolaridade",
+                       "fx_renda" = "Renda",
+                       "Evangelicos" = "Evangélicos",
+                       "Freq_Igreja" = "Frequência\ncultos religiosos ",
+                       "ideologia" = "Ideologia", 
+                       "Partidarios"  = "Partidários",
+                       "igualitarios" = "Igualitários"))+
+  labs(
+    #title = "",
+    y = "Odds Ratios",
+    col = "")+
+  scale_y_continuous(limits = c(0.2, 3.5))+
+  scale_color_manual(values = c("#83c5be","#e6ccb2","#b7b7a4", "gray40"))
+
+```
+**Fonte:** A cara da democracia.
+:::
+
+
+#
+### Resultados {background-image=metodologia_ABCP.jpg}
+
+::: {style="font-size: 15px;"}
+**Gráfico 2:** Apoio ao casamento civil entre pessoas do mesmo sexo 
+```{r, fig.width=16, fig.height=8}
+
+## Casamento igualitário
+
+modelo_1_casamento <- glm(
+  rtemas2  ~ 
+    
+    # Independentes
+    Mulher +
+    Casados +
+    Dona_de_casa +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    #Catolicos+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018+
+    Ano_2019+
+    Ano_2021,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos
+)
+
+
+
+modelo_2_casamento <- glm(
+  rtemas2  ~ 
+    
+    # Independentes
+    Mulher +
+    igualitarios+
+    Casados +
+    Dona_de_casa +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    # Catolicos+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018+
+    Ano_2019+
+    Ano_2021,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos
+)
+
+
+b_modelos_m_casamento <- b_modelos %>% 
+  rename(`Apenas mulheres` = rtemas2)
+
+modelo_3_casamento <- glm(
+  `Apenas mulheres`  ~ 
+    
+    # Independentes
+    Mulher +
+    igualitarios+
+    Casados +
+    Dona_de_casa +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    #Catolicos+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018+
+    Ano_2019+
+    Ano_2021,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos_m_casamento[b_modelos_m_casamento$Mulher == 1, ])
+
+
+b_modelos_h_casamento <- b_modelos %>% 
+  rename(`Apenas homens` = rtemas2)
+
+modelo_4_casamento <- glm(
+  `Apenas homens`  ~
+    
+    # Independentes
+    Mulher +
+    igualitarios+
+    Casados +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    #Catolicos+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018+
+    Ano_2019+
+    Ano_2021,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos_h_casamento[b_modelos_h_casamento$Mulher == 0, ])
+
+
+## O plot 
+plot_models(modelo_4_casamento, modelo_3_casamento, modelo_2_casamento, modelo_1_casamento,
+            m.labels = c("Modelo 4\nApenas Homens", "Modelo 3\nApenas Mulheres",
+                         "Modelo 2","Modelo 1"),
+            rm.terms = c("Ano_2018"),
+            show.values = T,
+            spacing = 0.7,
+            vline.color = "gray50",
+            line.size = 1,
+            grid = TRUE
+)+ 
+  theme(text = element_text(size = 14), 
+        strip.text = element_text(size = 15),
+        legend.position = "none")+
+  scale_x_discrete(labels=c(
+    "Mulher" = "Mulher", 
+    "Casados" = "Casadas(os)", 
+    "Dona_de_casa" = "Donas de casa", 
+    "idade" = "Idade",
+    "Brancos" = "Brancos", 
+    "esc" = "Escolaridade",
+    "fx_renda" = "Renda",
+    "Evangelicos" = "Evangélicos",
+    "Freq_Igreja" = "Frequência\ncultos religiosos ",
+    "ideologia" = "Ideologia", 
+    "Partidarios"  = "Partidários",
+    "igualitarios" = "Igualitários"))+
+  labs(
+    #title = "",
+    y = "Odds Ratios",
+    col = "")+
+  scale_y_continuous(limits = c(0.2, 3.5))+
+  scale_color_manual(values = c("#83c5be","#e6ccb2","#b7b7a4", "gray40"))
+
+
+
+```
+**Fonte:** A cara da democracia.
+:::
+
+
+#
+### Resultados 
+
+::: {style="font-size: 15px;"}
+**Gráfico 3:** Apoio a adoção de uma criança por um casal gay
+
+```{r, fig.width=16, fig.height=8}
+
+## Adoção
+
+modelo_1_adocao <- glm(
+  rtemas3  ~ 
+    
+    # Independentes
+    Mulher +
+    Casados +
+    Dona_de_casa +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    #Catolicos+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018+
+    Ano_2019+
+    Ano_2021,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos
+)
+
+modelo_2_adocao <- glm(
+  rtemas3  ~ 
+    
+    # Independentes
+    Mulher +
+    igualitarios+
+    Casados +
+    Dona_de_casa +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    #Catolicos+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018+
+    Ano_2019+
+    Ano_2021,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos
+)
+
+b_modelos_m_adocao <- b_modelos %>% 
+  rename(`Apenas mulheres` = rtemas3)
+
+modelo_3_adocao <- glm(
+  `Apenas mulheres`  ~ 
+    
+    # Independentes
+    Mulher +
+    igualitarios+
+    Casados +
+    Dona_de_casa +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    # Catolicos+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018+
+    Ano_2019+
+    Ano_2021,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos_m_adocao[b_modelos_m_adocao$Mulher == 1, ])
+
+
+b_modelos_h_adocao <- b_modelos %>% 
+  rename(`Apenas homens` = rtemas3)
+
+modelo_4_adocao <- glm(
+  `Apenas homens`  ~
+    
+    # Independentes
+    Mulher +
+    igualitarios+
+    Casados +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    # Catolicos+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018+
+    Ano_2019+
+    Ano_2021,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos_h_adocao[b_modelos_h_adocao$Mulher == 0, ])
+
+
+
+## O plot 
+plot_models(modelo_4_adocao, modelo_3_adocao, modelo_2_adocao, modelo_1_adocao,
+            m.labels = c("Modelo 4\nApenas Homens", "Modelo 3\nApenas Mulheres",
+                         "Modelo 2","Modelo 1"),
+            rm.terms = c("Ano_2018"),
+            show.values = T,
+            spacing = 0.7,
+            vline.color = "gray50",
+            line.size = 1,
+            grid = TRUE
+)+ 
+  theme(text = element_text(size = 14), 
+        strip.text = element_text(size = 15),
+        legend.position = "none")+
+  scale_x_discrete(labels=c(
+    "Mulher" = "Mulher", 
+    "Casados" = "Casadas(os)", 
+    "Dona_de_casa" = "Donas de casa", 
+    "idade" = "Idade",
+    "Brancos" = "Brancos", 
+    "esc" = "Escolaridade",
+    "fx_renda" = "Renda",
+    "Evangelicos" = "Evangélicos",
+    "Freq_Igreja" = "Frequência\ncultos religiosos ",
+    "ideologia" = "Ideologia", 
+    "Partidarios"  = "Partidários",
+    "igualitarios" = "Igualitários"))+
+  labs(
+    #title = "",
+    y = "Odds Ratios",
+    col = "")+
+  scale_y_continuous(limits = c(0.2, 3.5))+
+  scale_color_manual(values = c("#83c5be","#e6ccb2","#b7b7a4", "gray40"))
+
+```
+**Fonte:** A cara da democracia.
+:::
+
+
+#
+#### Considerações finais 
+
+- A temática que mais diferencia as opiniões de homens e mulheres é a adoção de uma criança por um casal gay;
+
+- Ser mulher aumenta a chance de ser favorável a legalização do aborto (quando controlado por religiosidade);
+
+- Ser mulher aumenta a chance de ser favorável ao casamento e ao direito de adotar uma criança para pessoas do mesmo sexo.
+
+
+
+# Obrigada! 
+
+#
+#### Anexo
+
+```{r, fig.width=16, fig.height=8}
+
+modelo_2_adocao <- glm(
+  rtemas3  ~ 
+    
+    # Independentes
+    Mulher +
+    igualitarios+
+    Casados +
+    Dona_de_casa +
+    
+    # Controles 
+    ideologia+
+    Partidarios +
+    Evangelicos +
+    #Catolicos+
+    Brancos+
+    esc + 
+    fx_renda +
+    idade+
+    Ano_2018+
+    Ano_2019+
+    Ano_2021,
+  
+  family = binomial(link = "logit"),
+  data = b_modelos
+)
+
+performance::check_model(modelo_2_adocao)
+
+```
+
+
