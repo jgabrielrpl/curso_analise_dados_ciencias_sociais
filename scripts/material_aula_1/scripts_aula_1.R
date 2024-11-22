@@ -6,6 +6,8 @@
 ##
 # Informacoes iniciais ----
 
+library(tidyverse)
+
 # Informacao: As suas quatro telas 
 
 numero <- 13
