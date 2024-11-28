@@ -1,0 +1,101 @@
+---
+title: "Análise de Dados em Ciências Sociais "
+subtitle: "R e RStudio"
+author: João Gabriel R. P Leal
+institute: "Doutorando em Saúde Pública na Fiocruz/ENSP"
+format: 
+  revealjs:
+    self-contained: true
+    footer: "Aula 2"
+    transition: slide
+    title-slide-attributes: 
+      data-background-image: metodologia_ABCP.jpg 
+execute: 
+  echo: false
+
+---
+
+## O que vamos aprender hoje?
+
+- Conhecer os Dados
+
+- Preparar os Dados
+
+- Manipular os Dados
+
+## Conhecer os Dados
+
+Banco de dados
+
+- Ir para o slide do Prof. Fred
+
+[Link](https://ipol-unb.github.io/emcp24/aula2/#/data.frame-1)
+
+## Conhecer os Dados
+
+**Formato data Frame**
+
+```{r}
+knitr::include_graphics("C:/Users/azeve/Videos/curso_analise_dados_ciencias_sociais/slide_aulas/slides_aula_2/imagens/i_1.png")
+```
+## Conhecer os Dados
+
+**Formato data Frame**
+
+```{r}
+knitr::include_graphics("C:/Users/azeve/Videos/curso_analise_dados_ciencias_sociais/slide_aulas/slides_aula_2/imagens/i_2.png")
+
+```
+
+## Conhecer os Dados
+
+**Pacotes**
+
+- Ir para o slide do Prof. Fred
+
+[Link](https://ipol-unb.github.io/emcp24/aula2/#/pacotes)
+
+## Conhecer os Dados
+
+**Importação de dados**
+
+- Vamos ao RStudio
+
+## Preparar a base de dados
+
+**As cinco funções principais do dplyr para preparar bases de dados**
+
+- 1. Select: selecionar colunas
+
+- 2. Filter: filtrar linhas
+
+- 3. Mutate: criar colunas
+
+- 4. Arrange: ordenar linhas
+
+- 5. Join: juntar bases de dados diferentes 
+
+## Preparar 
+
+**Preparação dos dados**
+
+- Vamos ao RStudio
+
+## Manipular os Dados: os resultados
+
+- Summarise: chegar aos resultados
+
+```{r}
+knitr::include_graphics("C:/Users/azeve/Videos/curso_analise_dados_ciencias_sociais/slide_aulas/slides_aula_2/imagens/i_3.png")
+
+```
+
+## Juntar banco de dados
+
+Join
+
+```{r}
+knitr::include_graphics("C:/Users/azeve/Videos/curso_analise_dados_ciencias_sociais/slide_aulas/slides_aula_2/imagens/i_4.png")
+
+```
+
